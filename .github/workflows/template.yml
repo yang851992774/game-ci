@@ -51,6 +51,7 @@ jobs:
         id: testRunner
         with:
           testMode: all
+          unityVersion: 6000.0.59f2
 
       - uses: actions/upload-artifact@v4
         with:
