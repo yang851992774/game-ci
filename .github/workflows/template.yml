@@ -14,49 +14,49 @@ jobs:
         if: ${{ !startsWith(env.UNITY_LICENSE, '<') }}
         run: exit 1
 
-  # testRunner:
-  #   needs: checkLicense
-  #   name: Test all modes 📝
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
+  testRunner:
+    needs: checkLicense
+    name: Test all modes 📝
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-  #     - name: Create LFS file list
-  #       run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
+      - name: Create LFS file list
+        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
 
-  #     - name: Restore LFS cache
-  #       uses: actions/cache@v4
-  #       id: lfs-cache
-  #       with:
-  #         path: .git/lfs
-  #         key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
+      - name: Restore LFS cache
+        uses: actions/cache@v4
+        id: lfs-cache
+        with:
+          path: .git/lfs
+          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
 
-  #     - name: Git LFS Pull
-  #       run: |
-  #         git lfs pull
-  #         git add .
-  #         git reset --hard
+      - name: Git LFS Pull
+        run: |
+          git lfs pull
+          git add .
+          git reset --hard
 
-  #     - name: Restore Library cache
-  #       uses: actions/cache@v4
-  #       with:
-  #         path: Library
-  #         key: Library-test-project
-  #         restore-keys: |
-  #           Library-test-project-
-  #           Library-
+      - name: Restore Library cache
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-test-project
+          restore-keys: |
+            Library-test-project-
+            Library-
 
-  #     - uses: webbertakken/unity-test-runner@v4
-  #       id: testRunner
-  #       with:
-  #         testMode: all
-  #         unityVersion: 6000.0.59f2
+      - uses: webbertakken/unity-test-runner@v4
+        id: testRunner
+        with:
+          testMode: all
+          unityVersion: 6000.0.59f2
 
-  #     - uses: actions/upload-artifact@v4
-  #       with:
-  #         name: Test results (all modes)
-  #         path: ${{ steps.testRunner.outputs.artifactsPath }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Test results (all modes)
+          path: ${{ steps.testRunner.outputs.artifactsPath }}
 
   buildWebGL:
     needs: testRunner
