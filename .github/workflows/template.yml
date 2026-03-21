@@ -47,7 +47,7 @@ jobs:
             Library-test-project-
             Library-
 
-      - uses: webbertakken/unity-test-runner@v4
+      - uses: game-ci/unity-test-runner@v4.3.1
         id: testRunner
         with:
           testMode: all
