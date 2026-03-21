@@ -49,9 +49,14 @@ jobs:
 
       - uses: game-ci/unity-test-runner@v4.3.1
         id: testRunner
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+          UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
         with:
           testMode: all
           unityVersion: 6000.0.59f2
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: actions/upload-artifact@v4
         with:
